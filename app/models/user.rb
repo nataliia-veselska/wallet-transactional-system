@@ -6,5 +6,6 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
-  validates :full_name, :email, presence: true
+  validates :full_name, :email, :login, presence: true
+  validates :email, :login, uniqueness: true
 end

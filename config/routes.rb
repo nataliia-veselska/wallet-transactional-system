@@ -7,4 +7,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  resources :sign_in, only: [:create] do
+    delete :destroy, on: :collection
+  end
+
+  resources :test, only: [:index]
 end
