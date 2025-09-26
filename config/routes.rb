@@ -12,5 +12,15 @@ Rails.application.routes.draw do
     delete :destroy, on: :collection
   end
 
-  resources :test, only: [:index]
+  resources :transactions do
+    collection do
+      post 'deposit', to: 'transactions#deposit'
+      post 'withdraw', to: 'transactions#withdraw'
+      post 'transfer', to: 'transactions#transfer'
+    end
+  end
+
+  resources :wallet do
+    get :balance, on: :collection
+  end
 end

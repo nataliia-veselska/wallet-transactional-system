@@ -2,7 +2,7 @@
 
 class User < ActiveRecord::Base
   has_one :wallet
-  has_many :holdings
+  has_many :holdings, dependent: :destroy
 
   has_secure_password
 

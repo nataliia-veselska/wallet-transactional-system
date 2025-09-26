@@ -8,5 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.create!(login: 'john', full_name: 'John Doe', email: 'john@gmail.com', password: 'password')
-User.create!(login: 'jane', full_name: 'Jane Doe', email: 'jane@gmail.com', password: 'password')
+user1 = User.create!(login: 'john', full_name: 'John Doe', email: 'john@gmail.com', password: 'password')
+user2 = User.create!(login: 'jane', full_name: 'Jane Doe', email: 'jane@gmail.com', password: 'password')
+Wallet.create!(user_id: user1.id)
+Wallet.create!(user_id: user2.id)
