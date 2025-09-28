@@ -38,7 +38,7 @@ class TransferTransaction < BaseTransaction
     raise StandardError, "Invalid parameters" if target_wallet_id.blank? || sum.blank?
     raise StandardError, "Sum can't be 0 or less" if sum <= 0
     raise StandardError, "Wallet not found" unless target_wallet && source_wallet
-    raise StandardError, "Insufficient balance" if sum > source_wallet.balance
+    raise StandardError, "Insufficient balance" if sum > source_wallet.current_balance
   end
 
   def target_wallet

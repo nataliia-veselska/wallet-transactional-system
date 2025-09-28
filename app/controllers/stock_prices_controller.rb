@@ -16,12 +16,4 @@ class StockPricesController < ApplicationController
 
     render json: results
   end
-
-  def price
-    return render json: { error: "Search text is required" }, status: :bad_request if params[:search].blank?
-
-    results = LatestStockPrice::Price.get_results(params[:search])
-
-    render json: results
-  end
 end

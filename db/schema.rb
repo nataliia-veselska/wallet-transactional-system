@@ -15,12 +15,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_25_131222) do
   enable_extension "plpgsql"
 
   create_table "holdings", force: :cascade do |t|
+    t.bigint "user_id"
     t.string "symbol"
     t.integer "quantity"
     t.integer "price_in_cents"
     t.string "currency", default: "USD"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_holdings_on_user_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -54,6 +56,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_25_131222) do
     t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
+  add_foreign_key "holdings", "users"
   add_foreign_key "transactions", "wallets", column: "source_wallet_id"
   add_foreign_key "transactions", "wallets", column: "target_wallet_id"
   add_foreign_key "wallets", "users"

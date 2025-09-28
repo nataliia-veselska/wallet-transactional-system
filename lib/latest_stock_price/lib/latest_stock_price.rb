@@ -4,7 +4,6 @@ require_relative "latest_stock_price/version"
 require_relative "latest_stock_price/fetcher"
 require_relative "latest_stock_price/price_all"
 require_relative "latest_stock_price/prices"
-require_relative "latest_stock_price/price"
 
 module LatestStockPrice
 end

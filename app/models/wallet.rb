@@ -7,8 +7,8 @@ class Wallet < ActiveRecord::Base
 
   validates :balance_in_cents, numericality: { greater_than_or_equal_to: 0 }
 
-  def balance
-    BigDecimal(balance_in_cents) / 100
+  def current_balance
+    income_sum - outcome_sum
   end
 
   def deposit(sum)
@@ -18,8 +18,16 @@ class Wallet < ActiveRecord::Base
   end
 
   def withdraw(sum)
-    return if sum <= 0 || sum > balance
+    return if sum <= 0 || sum > current_balance
 
     update!(balance_in_cents: balance_in_cents - (sum * 100))
+  end
+
+  def income_sum
+    BigDecimal(deposits.success.sum(:sum_in_cents)) / 100.0
+  end
+
+  def outcome_sum
+    BigDecimal(withdrawals.success.sum(:sum_in_cents)) / 100.0
   end
 end

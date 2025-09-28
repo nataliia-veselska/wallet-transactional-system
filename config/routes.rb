@@ -29,4 +29,10 @@ Rails.application.routes.draw do
     get :prices, on: :collection
     get :price, on: :collection
   end
+
+  resources :stocks do
+    collection do
+      post 'buy', to: 'stocks#buy'
+    end
+  end
 end

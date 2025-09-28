@@ -4,6 +4,6 @@ class WalletController < ApplicationController
   before_action :authenticate_user
 
   def balance
-    render json: { balance: current_user.wallet.balance }
+    render json: { balance: current_user.wallet.current_balance }
   end
 end
