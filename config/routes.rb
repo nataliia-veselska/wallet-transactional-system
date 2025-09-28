@@ -23,4 +23,10 @@ Rails.application.routes.draw do
   resources :wallet do
     get :balance, on: :collection
   end
+
+  resources :stock_prices do
+    get :price_all, on: :collection
+    get :prices, on: :collection
+    get :price, on: :collection
+  end
 end
