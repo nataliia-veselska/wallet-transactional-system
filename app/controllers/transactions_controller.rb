@@ -1,29 +1,32 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
+  include WalletHelper
+
   before_action :authenticate_user
+  before_action :find_walletable
 
   def deposit
-    DepositTransaction.new(params[:target_wallet_id], params[:sum]).call
+    DepositTransaction.new(@walletable.wallet.id, params[:sum]).call
 
     render json: { status: "success" }
   rescue StandardError => e
-    render json: { error: e }, status: :unprocessable_entity
+    render_error(e, :unprocessable_entity)
   end
 
   def withdraw
-    WithdrawTransaction.new(params[:source_wallet_id], params[:sum]).call
+    WithdrawTransaction.new(@walletable.wallet.id, params[:sum]).call
 
     render json: { status: "success" }
   rescue StandardError => e
-    render json: { error: e }, status: :unprocessable_entity
+    render_error(e, :unprocessable_entity)
   end
 
   def transfer
-    TransferTransaction.new(current_user.wallet, params[:target_wallet_id], params[:sum]).call
+    TransferTransaction.new(current_user.wallet, @walletable.wallet.id, params[:sum]).call
 
     render json: { status: "success" }
   rescue StandardError => e
-    render json: { error: e }, status: :unprocessable_entity
+    render_error(e, :unprocessable_entity)
   end
 end

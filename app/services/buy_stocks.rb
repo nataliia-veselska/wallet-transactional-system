@@ -17,13 +17,13 @@ class BuyStocks < BaseTransaction
     @sum = price * quantity
     raise StandardError, "Insufficient balance" if sum > source_wallet.current_balance
 
-    withdrawal = create_withdraw
+    withdrawal = create_withdraw!
 
     begin
       ActiveRecord::Base.transaction do
         source_wallet.withdraw(sum)
         withdrawal.update!(status: "success")
-        source_wallet.user.holdings.create!(symbol: stock_symbol, quantity:, price_in_cents: sum * 100)
+        source_wallet.walletable.holdings.create!(symbol: stock_symbol, quantity:, price_in_cents: sum * 100)
       end
     rescue StandardError
       if withdrawal.pending?

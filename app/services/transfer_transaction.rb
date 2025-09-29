@@ -12,8 +12,8 @@ class TransferTransaction < BaseTransaction
   def call
     validate_params
 
-    deposit = create_deposit(source_wallet.id)
-    withdrawal = create_withdraw(target_wallet_id)
+    deposit = create_deposit!(source_wallet.id)
+    withdrawal = create_withdraw!(target_wallet_id)
 
     begin
     ActiveRecord::Base.transaction do
@@ -39,6 +39,7 @@ class TransferTransaction < BaseTransaction
     raise StandardError, "Sum can't be 0 or less" if sum <= 0
     raise StandardError, "Wallet not found" unless target_wallet && source_wallet
     raise StandardError, "Insufficient balance" if sum > source_wallet.current_balance
+    raise StandardError, "Cannot be the same as source wallet" if source_wallet == target_wallet
   end
 
   def target_wallet

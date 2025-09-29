@@ -11,7 +11,7 @@ class WithdrawTransaction < BaseTransaction
   def call
     validate_params
 
-    withdrawal = create_withdraw
+    withdrawal = create_withdraw!
 
     begin
       ActiveRecord::Base.transaction do

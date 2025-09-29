@@ -3,7 +3,7 @@
 class SignInController < ApplicationController
   def create
     user = User.authenticate_by(login: params[:login], password: params[:password])
-    return render json: { error: "Incorrect credentials" }, status: :unauthorized unless user
+    return render_error("Incorrect credentials", :unauthorized) unless user
 
     session[:current_user_id] = user.id
     render json: { status: 'success' }

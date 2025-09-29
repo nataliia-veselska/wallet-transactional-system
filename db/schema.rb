@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_25_131222) do
     t.string "currency", default: "USD"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["symbol"], name: "index_holdings_on_symbol"
     t.index ["user_id"], name: "index_holdings_on_user_id"
   end
 
@@ -36,6 +37,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_25_131222) do
     t.datetime "updated_at", null: false
     t.index ["source_wallet_id"], name: "index_transactions_on_source_wallet_id"
     t.index ["target_wallet_id"], name: "index_transactions_on_target_wallet_id"
+    t.index ["type"], name: "index_transactions_on_type"
   end
 
   create_table "users", force: :cascade do |t|
@@ -45,19 +47,23 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_25_131222) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["login"], name: "index_users_on_login", unique: true
   end
 
   create_table "wallets", force: :cascade do |t|
-    t.bigint "user_id"
+    t.string "walletable_type", null: false
+    t.bigint "walletable_id", null: false
     t.integer "balance_in_cents", default: 0
     t.string "currency", default: "USD"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_wallets_on_user_id"
+    t.index ["balance_in_cents"], name: "index_wallets_on_balance_in_cents"
+    t.index ["currency"], name: "index_wallets_on_currency"
+    t.index ["walletable_type", "walletable_id"], name: "index_wallets_on_walletable_type_and_walletable_id", unique: true
   end
 
   add_foreign_key "holdings", "users"
   add_foreign_key "transactions", "wallets", column: "source_wallet_id"
   add_foreign_key "transactions", "wallets", column: "target_wallet_id"
-  add_foreign_key "wallets", "users"
 end

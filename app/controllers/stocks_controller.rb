@@ -8,6 +8,6 @@ class StocksController < ApplicationController
 
     render json: { status: "success" }
   rescue StandardError => e
-    render json: { error: e }, status: :unprocessable_entity
+    render_error(e, :unprocessable_entity)
   end
 end

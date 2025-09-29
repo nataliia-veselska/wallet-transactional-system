@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_user
-    render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
+    render_error("Unauthorized", :unauthorized) unless current_user
+  end
+
+  def render_error(message, status = :unprocessable_entity)
+    render json: { error: message }, status: status
   end
 end

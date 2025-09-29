@@ -11,7 +11,7 @@ class DepositTransaction < BaseTransaction
   def call
     validate_params
 
-    deposit = create_deposit
+    deposit = create_deposit!
 
     begin
       ActiveRecord::Base.transaction do

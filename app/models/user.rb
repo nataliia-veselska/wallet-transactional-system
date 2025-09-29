@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
-  has_one :wallet
+  include Walletable
+
   has_many :holdings, dependent: :destroy
 
   has_secure_password

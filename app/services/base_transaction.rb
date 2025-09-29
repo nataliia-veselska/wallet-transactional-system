@@ -3,7 +3,7 @@
 class BaseTransaction
   private
 
-  def create_deposit(source_wallet_id = nil)
+  def create_deposit!(source_wallet_id = nil)
     Deposit.create!(
       source_wallet_id:,
       target_wallet_id: target_wallet.id,
@@ -12,7 +12,7 @@ class BaseTransaction
     )
   end
 
-  def create_withdraw(target_wallet_id = nil)
+  def create_withdraw!(target_wallet_id = nil)
     Withdrawal.create!(
       source_wallet_id: source_wallet.id,
       target_wallet_id:,
